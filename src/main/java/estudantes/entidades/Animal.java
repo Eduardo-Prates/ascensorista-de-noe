@@ -23,7 +23,7 @@ public class Animal {
     /**
      * Limite da paciência de um animal esperando na fila antes de ir embora.
      */
-    public int PACIENCIA_MAXIMA; //em segundos (ciclos de espera)
+    public final int PACIENCIA_MAXIMA = 25; //em segundos (ciclos de espera)
     
     private int id;
     private String nome;
@@ -52,7 +52,6 @@ public class Animal {
         this.peso = peso;
         this.temperaturaIdeal = temperaturaIdeal;
         tempoDeEspera = 0;
-        PACIENCIA_MAXIMA = 25;
     }
     
     /**
@@ -184,7 +183,7 @@ public class Animal {
      */
     public void aumentaEspera() {
         tempoDeEspera++;
-        if (this.PACIENCIA_MAXIMA < tempoDeEspera){
+        if (PACIENCIA_MAXIMA < tempoDeEspera){
             throw new RuntimeException("Animal esperando a mais tempo que a paciência");
         }
     }

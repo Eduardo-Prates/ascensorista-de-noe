@@ -2,10 +2,10 @@ package estudantes.entidades;
 
 public class AveVoadora extends Ave{
 
+    public final int PACIENCIA_MAXIMA = 20;
+
     /**
      * Construtor da ave voadora.
-     * Todos os atributos são passados por parâmetro, exceto o tempo de espera
-     * que sempre começa em 0.
      *
      * @param id
      * @param nome
@@ -17,7 +17,6 @@ public class AveVoadora extends Ave{
      */
     public AveVoadora(int id, String nome, String especie, int andarDesejado, int peso, int temperaturaIdeal, String corDasPenas) {
         super(id, nome, especie, andarDesejado, peso, temperaturaIdeal, corDasPenas);
-        PACIENCIA_MAXIMA = 20;
     }
 
     /**

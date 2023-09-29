@@ -2,11 +2,10 @@ package estudantes.entidades;
 
 public class Ave extends Animal{
 
+    public final int PACIENCIA_MAXIMA = 30;
     private String corDasPenas;
     /**
      * Construtor da ave.
-     * Todos os atributos são passados por parâmetro, exceto o tempo de espera
-     * que sempre começa em 0.
      *
      * @param id
      * @param nome
@@ -18,7 +17,6 @@ public class Ave extends Animal{
     public Ave(int id, String nome, String especie, int andarDesejado, int peso, int temperaturaIdeal, String corDasPenas) {
         super(id, nome, especie, andarDesejado, peso, temperaturaIdeal);
         this.corDasPenas = corDasPenas;
-        PACIENCIA_MAXIMA = 30;
     }
 
     /**

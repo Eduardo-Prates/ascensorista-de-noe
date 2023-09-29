@@ -2,10 +2,10 @@ package estudantes.entidades;
 
 public class Anfibio extends Animal{
 
+    public final int PACIENCIA_MAXIMA = 45;
+
     /**
      * Construtor do anfíbio.
-     * Todos os atributos são passados por parâmetro, exceto o tempo de espera
-     * que sempre começa em 0.
      * @param id
      * @param nome
      * @param especie
@@ -15,7 +15,6 @@ public class Anfibio extends Animal{
      */
     public Anfibio(int id, String nome, String especie, int andarDesejado, int peso, int temperaturaIdeal) {
         super(id, nome, especie, andarDesejado, peso, temperaturaIdeal);
-        PACIENCIA_MAXIMA = 45;
     }
 
     /**

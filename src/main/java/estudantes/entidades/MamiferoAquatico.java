@@ -2,10 +2,10 @@ package estudantes.entidades;
 
 class MamiferoAquatico extends Mamifero{
 
+    public final int PACIENCIA_MAXIMA = 40;
+
     /**
      * Construtor do mamifero.
-     * Todos os atributos são passados por parâmetro, exceto o tempo de espera
-     * que sempre começa em 0.
      *
      * @param id
      * @param nome
@@ -19,7 +19,7 @@ class MamiferoAquatico extends Mamifero{
     }
 
     /**
-     * @return Uma String com a indicação da ação de nadar do anfíbio.
+     * @return Uma String com a indicação da ação de nadar do mamífero aquático.
      */
     public String nadar(){
         return "nadando";
@@ -32,12 +32,12 @@ class MamiferoAquatico extends Mamifero{
      */
     @Override
     public String toString(){
-        return "Mamifero aquático " + super.toString();
+        return "Mamífero aquático " + super.toString();
     }
 
     /**
      * Retorna se o mamífero aquático é igual a outro.
-     * @param o o outro mamífero aquático a ser comparada.
+     * @param o o outro mamífero aquático a ser comparado.
      * @return true se os mamíferos aquáticos são iguais, false caso contrário
      */
     @Override
@@ -62,13 +62,11 @@ class MamiferoAquatico extends Mamifero{
     }
 
     /**
-     * Retorna o hashcode do mamífero.
-     * @return hashcode do mamífero
+     * Retorna o hashcode do mamífero aquático.
+     * @return hashcode do mamífero aquático
      */
     @Override
     public int hashCode(){
-        int hash = super.hashCode();
-        hash *= 29 + (this.isPeludo() ? 31 : 37);
-        return hash;
+        return super.hashCode();
     }
 }

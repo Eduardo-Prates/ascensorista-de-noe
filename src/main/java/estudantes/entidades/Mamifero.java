@@ -4,9 +4,7 @@ abstract class Mamifero extends Animal{
 
     boolean peludo;
     /**
-     * Construtor do mamifero.
-     * Todos os atributos são passados por parâmetro, exceto o tempo de espera
-     * que sempre começa em 0.
+     * Construtor do mamífero.
      *
      * @param id
      * @param nome
@@ -35,7 +33,7 @@ abstract class Mamifero extends Animal{
      */
     @Override
     public String toString(){
-        return super.toString() + "\n" +
+        return super.toString() +
                 "Peludo: " + peludo;
     }
 
