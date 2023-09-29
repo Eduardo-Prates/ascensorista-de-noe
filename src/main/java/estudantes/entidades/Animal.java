@@ -23,7 +23,7 @@ public class Animal {
     /**
      * Limite da paciência de um animal esperando na fila antes de ir embora.
      */
-    public final int PACIENCIA_MAXIMA = 25; //em segundos (ciclos de espera)
+    public int PACIENCIA_MAXIMA; //em segundos (ciclos de espera)
     
     private int id;
     private String nome;
@@ -44,9 +44,15 @@ public class Animal {
      * @param peso
      * @param temperaturaIdeal 
      */
-    public Animal(int id, String nome, String especie, int andarDesejado, 
-            int peso, int temperaturaIdeal){
-        /* TODO: codificar */
+    public Animal(int id, String nome, String especie, int andarDesejado, int peso, int temperaturaIdeal){
+        this.id = id;
+        this.nome = nome;
+        this.especie = especie;
+        this.andarDesejado = andarDesejado;
+        this.peso = peso;
+        this.temperaturaIdeal = temperaturaIdeal;
+        tempoDeEspera = 0;
+        PACIENCIA_MAXIMA = 25;
     }
     
     /**
@@ -57,6 +63,27 @@ public class Animal {
     public int getId(){
         return id;
     }
+
+    /**
+     * Retorna o nome do animal.
+     * O nome é gerado aleatoriamente e é composto por 3 letras maiúsculas.
+     * @return nome do animal
+     */
+    public String getNome() {return nome;}
+
+    /**
+     * Retorna a espécie do animal.
+     * A espécie é gerada aleatoriamente e é composta por 3 letras maiúsculas.
+     * @return espécie do animal
+     */
+    public String getEspecie() {return especie;}
+
+    /**
+     * Retorna o andar desejado pelo animal.
+     * O andar desejado é gerado aleatoriamente e está entre 0 e 4.
+     * @return andar desejado pelo animal
+     */
+    public int getAndarDesejado() {return andarDesejado;}
     
     /**
      * Retorna o peso do animal.
@@ -65,6 +92,81 @@ public class Animal {
      */
     public int getPeso(){
         return peso;
+    }
+
+    /**
+     * Retorna a temperatura ideal do animal.
+     * A temperatura ideal é gerada aleatoriamente e está entre 0 e 50 graus
+     * Celsius.
+     * @return temperatura ideal do animal em graus Celsius
+     */
+    public int getTemperaturaIdeal(){return temperaturaIdeal;}
+
+    /**
+     * Retorna o tempo de espera do animal.
+     * O tempo de espera é incrementado a cada ciclo que o animal passa na fila
+     * de espera para embarcar no elevador.
+     * @return tempo de espera do animal em segundos (ciclos de espera)
+     */
+    public int getTempoDeEspera(){return tempoDeEspera;}
+
+
+    /**
+     * Retorna uma representação em String do animal.
+     * A representação é composta por todos os atributos do animal.
+     * @return representação em String do animal
+     */
+    @Override //faça o toString com quebras de linha
+    public String toString(){
+        return  id + ":\n" +
+                "Nome: " + nome + "\n" +
+                "Espécie: " + especie + "\n" +
+                "Andar desejado: " + andarDesejado + "\n" +
+                "Peso: " + peso + "\n" +
+                "Temperatura ideal: " + temperaturaIdeal + "\n" +
+                "Tempo de espera: " + tempoDeEspera + "\n" +
+                "Paciência máxima: " + PACIENCIA_MAXIMA + "\n";
+    }
+
+    /**
+     * Retorna se o animal é igual a outro.
+     * @param o o outro animal a ser comparado.
+     * @return true se os animais são iguais, false caso contrário
+     */
+    @Override
+    public boolean equals(Object o){
+        if(o == null){
+            return false;
+        }
+        if(this == o){
+            return true;
+        }
+
+        if(!(o instanceof Animal)){
+            return false;
+        } else {
+            Animal outroAnimal = (Animal) o;
+            return this.nome.equals(outroAnimal.getNome()) &&
+                    this.especie.equals(outroAnimal.getEspecie())&&
+                    this.peso == outroAnimal.peso &&
+                    this.temperaturaIdeal == outroAnimal.temperaturaIdeal;
+        }
+    }
+
+    /**
+     * Retorna o hashcode do animal.
+     * @return hashcode do animal
+     */
+    @Override
+    public int hashCode(){
+        int hash = 3;
+        hash *= 5 + this.id;
+        hash *= 7 + this.nome.hashCode();
+        hash *= 11 + this.especie.hashCode();
+        hash *= 13 + this.andarDesejado;
+        hash *= 17 + this.peso;
+        hash *= 23 + this.temperaturaIdeal;
+        return hash;
     }
     
     /**
@@ -80,7 +182,10 @@ public class Animal {
      * @throws RuntimeException se o animal está esperando a mais tempo que a paciência
      * @see professor.entidades.Arca#simularVida
      */
-    public void aumentaEspera(){
-        
+    public void aumentaEspera() {
+        tempoDeEspera++;
+        if (this.PACIENCIA_MAXIMA < tempoDeEspera){
+            throw new RuntimeException("Animal esperando a mais tempo que a paciência");
+        }
     }
 }

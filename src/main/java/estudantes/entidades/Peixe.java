@@ -1,2 +1,4 @@
-package estudantes.entidades;public class Peixe {
+package estudantes.entidades;
+
+public class Peixe extends Animal{
 }

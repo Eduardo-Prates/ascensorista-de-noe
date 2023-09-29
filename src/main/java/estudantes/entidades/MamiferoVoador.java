@@ -1,2 +1,4 @@
-package estudantes.entidades;public class MamiferoVoador {
+package estudantes.entidades;
+
+public class MamiferoVoador extends Mamifero{
 }
