@@ -42,8 +42,61 @@ public class Ascensorista {
      * @param elevador o elevador controlado pelo ascensorista
      * @param andar o andar no qual o elevador está parado
      */
-    public void agir(Elevador elevador, Andar andar){
-        /* TODO: codificar */
+    public void agir(Elevador elevador, Andar andar) {
+
+        dispensarAnimaisPossiveis(elevador, andar);
+
+        verificarSituacao(elevador, andar);
+
     }
-    
+
+    public void dispensarAnimaisPossiveis(Elevador elevador, Andar andar){
+        Animal[] animais = elevador.checarAnimaisNoElevador();
+
+        for(int i=0; i<animais.length; i++){
+            if(animais[i].getAndarDesejado() == elevador.getAndar()){
+                elevador.desembarcar(animais[i], andar);
+            }
+        }
+    }
+
+    //usar um vetor de que contenha os andares desejados pelos animais
+    public void verificarSituacao(Elevador elevador, Andar andar){
+        Animal[] animaisNoElevador = elevador.checarAnimaisNoElevador();
+        Animal[] animaisNaFila = andar.checarFilaParaElevador();
+
+        int pesoElevador = getPesoElevador(animaisNoElevador);
+        int temperaturaElevador = elevador.getTemperaturaDoArCondicionado();
+        boolean cheioDeAgua = elevador.isCheioDeAgua();
+
+        switch(andar.getAndar()){
+            case 4:
+                break;
+            case 3:
+                break;
+            case 2:
+                break;
+            case 1:
+                break;
+            case 0:
+                //fazer verificação que se os animais querem o elevador com água, temperatura, etc.
+                break;
+        }
+    }
+
+    public int getPesoElevador(Animal[] animaisNoElevador){
+        int peso=0;
+        for(int i=0; i<animaisNoElevador.length; i++){
+            peso+=animaisNoElevador[i].getPeso();
+        }
+        return peso;
+    }
+
+    public boolean verificarPeso(int peso){
+        if(peso <= 2500){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
