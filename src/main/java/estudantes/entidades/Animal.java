@@ -1,6 +1,5 @@
 package estudantes.entidades;
 
-
 /**
  * Classe que define um animal da arca.
  * <br><br>
