@@ -11,12 +11,12 @@ import professor.gui.Simulador;
  * Classe que representa a arca com seus andares, elevador e ascensorista.
  * <br><br>
  * <strong>Não mexa aqui!!!</strong>
- * 
+ *
  * @author Jean Cheiran
- * @version 1.0
+ * @version 1.1
  */
 public class Arca {
-    
+
     private static final String[] PRENOMES_DE_ANIMAIS = {"Guimaraes","Machado","Clarice","Cecilia","Graciliano","Conceicao","Ariano","Carolina","Lima","Erico","Martha","Olavo","Lygia","Jose","Chico","Mia","Jose","Jose","Augusto"};
     private static final String[] SOBRENOMES_DE_ANIMAIS = {"Rosa","de Assis","Lispector","Meireles","Ramos","Evaristo","Suassuna","de Jesus","Barreto","Verissimo","Medeiros","Bilac","Bojunga","de Alencar","Buarque","Couto","Bonifacio","Saramago","dos Anjos"};
     private static final String[] PRIMEIRA_PARTE_ESPECIE = {"Chioglossa","Bufo","Crocodylus","Tropidurus","Struthio","Raphus","Rhynchocyon","Psychrolutes","Amphiprion","Felis","Canis","Hemidactylus","Lepidopus","Cicinnurus","Tyrannus","Draco"};
@@ -51,7 +51,7 @@ public class Arca {
     public Elevador getElevador() {
         return elevador;
     }
-    
+
     /**
      * Retorna um vetor com todos os andares da arca.
      * O uso desse vetor deve ser cuidadoso, pois os elementos são referências 
@@ -62,7 +62,7 @@ public class Arca {
     public Andar[] getAndares() {
         return andares;
     }
-    
+
     /**
      * Simula a vida dentro da arca e atualiza a interface.
      * Cria animais novos nas filas para pegar o elevador com determinada
@@ -84,19 +84,19 @@ public class Arca {
                 int andarDesejado = gerador.nextInt(QUANTIDADE_DE_ANDARES_NA_ARCA);
                 int peso = gerador.nextInt(1000) + 1;
                 int temperatura = gerador.nextInt(41);
-                
+
                 Animal novo = new Animal(id, nome, especie, andarDesejado, peso, temperatura);
                 andares[i].colocarNaFila(novo);
             }
         }
-        
+
         //TODO do professor
-        
+
         //chamar ascensorista
         ascensorista.agir(elevador, andares[elevador.getAndar()]);
-        
+
         //TODO do professor
-        
+
         //atualiza a interface
         Simulador.getInstancia().atualizarInterface();
     }

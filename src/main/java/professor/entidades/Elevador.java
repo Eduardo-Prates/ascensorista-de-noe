@@ -8,30 +8,32 @@ import java.util.HashSet;
  * Classe que representa o elevador com suas características.
  * <br><br>
  * <strong>Não mexa aqui!!!</strong>
- * 
+ *
  * @author Jean Cheiran
- * @version 1.0
+ * @version 1.1
  */
 public class Elevador {
-    
+
     /**
      * Limite de peso do elevador.
      * Quando esse valor é ultrapassado, o elevador não deve se movimentar.
      */
     public final int LIMITE_DE_PESO = 2500; //em quilos
-    
+
     private HashSet<Animal> animais;
     private int andar; //0 é o térreo
     private int temperaturaDoArCondicionado; //em graus Celsius
     private boolean cheioDeAgua;
-    
+
     /**
      * Construtor padrão do elevador.
-     * Ele sempre começa vazio, sem água dentro e no andar 0 (térreo).
+     * Ele sempre começa vazio, sem água dentro, com ar-condicionado em
+     * 20 graus e no andar 0 (térreo).
      */
     public Elevador(){
         animais = new HashSet<Animal>();
         andar = 0;
+        temperaturaDoArCondicionado = 20;
         cheioDeAgua = false;
     }
 
@@ -85,7 +87,7 @@ public class Elevador {
     public int getAndar(){
         return andar;
     }
-    
+
     /**
      * Faz o elevador subir um andar imediatamente.
      * O tempo é relativo na Arca de Noé, então subir com o elevador tem efeito
@@ -131,7 +133,7 @@ public class Elevador {
             throw new RuntimeException("Elevador no terreo e tentando descer");
         }
     }
-    
+
     /**
      * Retorna se o elevador está cheio d'água.
      * @return true se estiver inundado; false caso contrário
@@ -155,9 +157,9 @@ public class Elevador {
      * imediato. Se o elevador já estiver vazio, o método não faz nada.
      */
     public void drenar() {
-        cheioDeAgua = false;       
+        cheioDeAgua = false;
     }
-    
+
     /**
      * Retorna a temperatura atual do ar-condicionado.
      * @return temperatura do ar-condicionado em graus Celsius
@@ -165,7 +167,7 @@ public class Elevador {
     public int getTemperaturaDoArCondicionado(){
         return temperaturaDoArCondicionado;
     }
-    
+
     /**
      * Modifica imediatamente a temperatura do ar-condicionado.
      * O ar-condicionado funciona entre 0 e 40 graus Celsius. Se a tentativa

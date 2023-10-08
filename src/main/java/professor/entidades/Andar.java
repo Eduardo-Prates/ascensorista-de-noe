@@ -9,15 +9,15 @@ import java.util.LinkedList;
  * Classe que representa um andar da arca onde animais embarcam e desembarcam.
  * <br><br>
  * <strong>Não mexa aqui!!!</strong>
- * 
+ *
  * @author Jean Cheiran
- * @version 1.0
+ * @version 1.1
  */
 public class Andar {
     private int andar; //começa no 0
     private LinkedList<Animal> filaParaElevador;
     private HashSet<Animal> animaisQueDesceram;
-    
+
     /**
      * Construtor do andar.
      * Ele sempre começa sem animais na fila e sem animais desembarcados.
@@ -28,7 +28,7 @@ public class Andar {
         filaParaElevador = new LinkedList<Animal>();
         animaisQueDesceram = new HashSet<Animal>();
     }
-    
+
     /**
      * Retorna o número do andar
      * @return andar (0 é térreo)
@@ -36,7 +36,7 @@ public class Andar {
     public int getAndar(){
         return andar;
     }
-    
+
     /**
      * Inclui o animal no fim da fila de espera para pegar o elevador.
      * Esse método é usado pelo simulador de vida da arca e não deveria ser
@@ -50,7 +50,7 @@ public class Andar {
             filaParaElevador.offer(animal);
         }
     }
-    
+
     /**
      * Remove e retorna o animal de uma posição especificada da fila.
      * A fila começa no primeiro animal (cabeça) que está na posição 0. Os
@@ -65,7 +65,7 @@ public class Andar {
     public Animal tirarDaFila(int posicao){
         return filaParaElevador.remove(posicao);
     }
-    
+
     /**
      * Remove a primeira ocorrência do animal especificado da fila.
      * Os animais são comparados na fila pelo método equals(Object o). Apenas o
@@ -78,7 +78,7 @@ public class Andar {
     public boolean tirarDaFila(Animal animal){
         return filaParaElevador.remove(animal);
     }
-    
+
     /**
      * Remove e retorna o primeiro animal da fila (cabeça da fila).
      * Esse método chama o próximo animal da fila, removendo ele quando for
@@ -88,7 +88,7 @@ public class Andar {
     public Animal chamarProximoDaFila(){
         return filaParaElevador.poll();
     }
-    
+
     /**
      * Devolve um vetor contendo todos os animais da fila para pegar o elevador.
      * Os animais serão retornados no vetor na mesma ordem da fila. O uso
@@ -103,7 +103,7 @@ public class Andar {
     public Animal[] checarFilaParaElevador(){
         return filaParaElevador.toArray(Animal[]::new);
     }
-    
+
     /**
      * Retorna o tamanho atual da fila para pegar o elevador.
      * @return quantidade de animais na fila
@@ -111,7 +111,7 @@ public class Andar {
     public int consultarTamanhoDaFila(){
         return filaParaElevador.size();
     }
-    
+
     /**
      * Coloca um animal no grupo de animais que desembarcaram no andar.
      * Esse método deve ser chamado pelo elevador para que um animal possa
@@ -124,7 +124,7 @@ public class Andar {
             animaisQueDesceram.add(animal);
         }
     }
-    
+
     /**
      * Devolve um vetor contendo todos os animais que desembarcaram nesse andar.
      * Os animais não estarão em uma ordem definida (por exemplo, ordem em que

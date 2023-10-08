@@ -8,15 +8,15 @@ import java.awt.Color;
  * Simulador gráfico da arca de Noé.
  * <br><br>
  * <strong>Não mexa aqui!!!</strong>
- * 
+ *
  * @author Jean Cheiran
- * @version 1.0
+ * @version 1.1
  */
 public class Simulador extends javax.swing.JFrame {
 
     private Arca arca;
     private static Simulador instancia;
-    
+
     /**
      * Invoca o simulador de vida da arca.
      * Esse método é um intermediário no contexto da interface gráfica com
@@ -26,7 +26,7 @@ public class Simulador extends javax.swing.JFrame {
     public void simular(){
         arca.simularVida();
     }
-    
+
     /**
      * Atualiza os elementos na tela com base no estado da arca.
      * Esse método é invocado pelo simulador da arca sempre que o estado
@@ -36,17 +36,17 @@ public class Simulador extends javax.swing.JFrame {
         //atualiza posição do elevador
         int novoY = 400 - arca.getElevador().getAndar() * 100;
         elevador.setLocation(0, novoY);
-        
+
         //atualiza quantidade animais elevador
         labelElevador.setText("." + arca.getElevador().checarAnimaisNoElevador().length + ".");
-        
+
         //atualiza elevador cheio ou vazio
         if(arca.getElevador().isCheioDeAgua()){
             elevador.setBackground(new Color(150,255,255));
         }else{
             elevador.setBackground(new Color(200,200,200));
         }
-        
+
         //atualiza os animais nas filas
         for(int i = 0; i < Arca.QUANTIDADE_DE_ANDARES_NA_ARCA; i++){
             if(arca.getAndares()[i].checarFilaParaElevador().length > 0){
@@ -70,19 +70,19 @@ public class Simulador extends javax.swing.JFrame {
                     case 3 -> labelAndar3.setText("vazio");
                     case 4 -> labelAndar4.setText("vazio");
                 }
-            }   
+            }
         }
-        
+
         //atualiza quantidade animais descidos nos andares
         labelDescidos0.setText(arca.getAndares()[0].checarDesembarcados().length + " <-");
         labelDescidos1.setText(arca.getAndares()[1].checarDesembarcados().length + " <-");
         labelDescidos2.setText(arca.getAndares()[2].checarDesembarcados().length + " <-");
         labelDescidos3.setText(arca.getAndares()[3].checarDesembarcados().length + " <-");
         labelDescidos4.setText(arca.getAndares()[4].checarDesembarcados().length + " <-");
-        
+
         this.repaint();
     }
-    
+
     /**
      * Padrão de projeto Singleton para obter o simulador.
      * @return instância única de Simulador
@@ -278,12 +278,12 @@ public class Simulador extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(fundo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(fundo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(fundo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(fundo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -296,7 +296,7 @@ public class Simulador extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
