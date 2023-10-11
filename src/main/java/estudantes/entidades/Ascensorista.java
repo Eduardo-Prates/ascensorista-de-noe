@@ -1,10 +1,8 @@
 package estudantes.entidades;
 
-
 import professor.entidades.Andar;
 import professor.entidades.Elevador;
 
-import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.ArrayList;
 
@@ -23,6 +21,8 @@ import java.util.ArrayList;
 public class Ascensorista {
 
     public ArrayList<Animal> animaisDentroDoElevador;
+
+    public boolean flag;
     
     /**
      * Construtor padrão de Ascensorista.
@@ -50,6 +50,7 @@ public class Ascensorista {
      */
     public void agir(Elevador elevador, Andar andar) {
 
+        //dispensando os animais
         dispensarAnimaisPossiveis(elevador, andar);
 
         Animal animaisNoElevador[] = elevador.checarAnimaisNoElevador();
@@ -57,68 +58,84 @@ public class Ascensorista {
 
         //verificar o as condições do próximo animal da fila e colocá-lo no elevador
         if (animaisNoAndar.length != 0) {
+            Animal proximoDaFila = animaisNoAndar[0];
             boolean podeEntrar;
 
-            int peso = getPesoElevador(animaisNoElevador);
-            if(verificarPeso(peso + animaisNoAndar[0].getPeso())){
-                podeEntrar = true;
-            } else {
-                podeEntrar = false;
-            }
-            if(podeEntrar) {
-                int[] temperaturas = getTemperaturas(animaisNoElevador);
-                int tempIdeal = 0;
-                if(temperaturas.length > 0){
-                    int tempMin = temperaturas[0];
-                    int tempMax = temperaturas[temperaturas.length - 1];
-                    if (animaisNoAndar[0].getTemperaturaIdeal() + 15 >= elevador.getTemperaturaDoArCondicionado() ||
-                        animaisNoAndar[0].getTemperaturaIdeal() - 15 <= elevador.getTemperaturaDoArCondicionado()) {
-                            podeEntrar = true;
-                    } else {
-                        if (animaisNoAndar[0].getTemperaturaIdeal() < tempMin) {
-                            tempMin = animaisNoAndar[0].getTemperaturaIdeal();
-                            if (tempMin + 15 < tempMax - 15) {
-                                tempIdeal = (int) Math.ceil((tempMin + tempMax) / 2);
-                                podeEntrar = true;
-                            }
-                        } else if (animaisNoAndar[0].getTemperaturaIdeal() > tempMax) {
-                            tempMax = animaisNoAndar[0].getTemperaturaIdeal();
-                            if (tempMax - 15 < tempMin + 15) {
-                                tempIdeal = (int) Math.ceil((tempMin + tempMax) / 2);
-                                podeEntrar = true;
-                            }
-                        } else {
-                            podeEntrar = false;
-                        }
-                    }
-                } else {
-                    tempIdeal = animaisNoAndar[0].getTemperaturaIdeal();
-                }
-                if (podeEntrar) {
-                    animaisDentroDoElevador.add(animaisNoAndar[0]);
-                    if(tempIdeal != 0){
-                        elevador.setTemperaturaDoArCondicionado(tempIdeal);
-                    }
-                    elevador.embarcar(andar.chamarProximoDaFila());
-                }
-            }
-        }
-        //seguir a trajetória do elevador
-        if(animaisDentroDoElevador.get(0).getAndarDesejado() > elevador.getAndar()){
-            elevador.subir();
-        } else if(elevador.getAndar() != 0) {
-            elevador.descer();
-        }
-    }
+            //passo 1, verificar o peso
+            podeEntrar = verificarPeso(animaisNoElevador, proximoDaFila);
 
-    public int getMaiorAndarDesejado(Animal[] animaisNoElevador) {
-        int maiorAndar = 0;
-        for (int i = 0; i < animaisNoElevador.length; i++) {
-            if (animaisNoElevador[i].getAndarDesejado() > maiorAndar) {
-                maiorAndar = animaisNoElevador[i].getAndarDesejado();
+            if(podeEntrar){
+                int[] condicoesEntrada = new int[2];
+                //podeEntrar = verificarAlagado(int[] condicoesEntrada)
+                if(podeEntrar){
+                    //passo 3, verificar a temperatura
+                    //podeEntrar = verificarTemperatura(int[] condicoesEntrada, animaisNoElevador, proximoDaFila) 
+                    int[] temperaturas = getTemperaturas(animaisNoElevador);
+                    int tempIdeal = 0;
+                    if(temperaturas.length > 0){
+                        int tempMin = temperaturas[0];
+                        int tempMax = temperaturas[temperaturas.length - 1];
+                        if (animaisNoAndar[0].getTemperaturaIdeal() + 15 >= elevador.getTemperaturaDoArCondicionado() ||
+                            animaisNoAndar[0].getTemperaturaIdeal() - 15 <= elevador.getTemperaturaDoArCondicionado()) {
+                                podeEntrar = true;
+                        } else {
+                            if (animaisNoAndar[0].getTemperaturaIdeal() < tempMin) {
+                                tempMin = animaisNoAndar[0].getTemperaturaIdeal();
+                                if (tempMin + 15 < tempMax - 15) {
+                                    tempIdeal = (int) Math.ceil((tempMin + tempMax) / 2);
+                                    podeEntrar = true;
+                                }
+                            } else if (animaisNoAndar[0].getTemperaturaIdeal() > tempMax) {
+                                tempMax = animaisNoAndar[0].getTemperaturaIdeal();
+                                if (tempMax - 15 < tempMin + 15) {
+                                    tempIdeal = (int) Math.ceil((tempMin + tempMax) / 2);
+                                    podeEntrar = true;
+                                }
+                            } else {
+                                podeEntrar = false;
+                            }
+                        }
+                    } else {
+                        tempIdeal = proximoDaFila.getTemperaturaIdeal();
+                    }
+                    if (podeEntrar) {
+                        animaisDentroDoElevador.add(animaisNoAndar[0]);
+                        if(tempIdeal != 0){
+                            elevador.setTemperaturaDoArCondicionado(tempIdeal);
+                        }
+                        elevador.embarcar(andar.chamarProximoDaFila());
+                    }
+                }
             }
         }
-        return maiorAndar;
+
+        if(elevador.getAndar() == 2){
+            flag = true;
+        }
+
+        //definindo o que deve ser feito
+        if((elevador.getAndar() == 1 || elevador.getAndar() == 3) && flag){
+            if(elevador.getAndar() == 3){
+                elevador.subir();
+            } else {
+                elevador.descer();
+            }
+            flag = false;
+        } else {
+            if(!animaisDentroDoElevador.isEmpty()){
+                if(animaisDentroDoElevador.get(0).getAndarDesejado() > elevador.getAndar()){
+                    elevador.subir();
+                } else if(elevador.getAndar() != 0) {
+                    elevador.descer();
+                }
+            } else {
+                if(elevador.getAndar()>=3){
+                    elevador.descer();
+                } else {
+                    elevador.subir();
+                }
+            }
+        }
     }
 
     public void dispensarAnimaisPossiveis(Elevador elevador, Andar andar){
@@ -147,7 +164,8 @@ public class Ascensorista {
         return peso;
     }
 
-    public boolean verificarPeso(int peso){
+    public boolean verificarPeso(Animal[] animaisNoElevador, Animal proximoDaFila){
+        int peso = getPesoElevador(animaisNoElevador) + proximoDaFila.getPeso();
         if(peso <= 2500){
             return true;
         } else {
