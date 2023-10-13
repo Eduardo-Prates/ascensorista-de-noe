@@ -33,7 +33,20 @@ public class AveVoadora extends Ave{
      */
     @Override
     public String toString(){
-        return super.toString();
+        String classe = this.getClass().getName();
+        String[] classeRepartida = classe.split("\\.");
+        String nomeClasse = classeRepartida[2];
+
+        return  "\nTipo: " + nomeClasse + "\n" +
+                "Identificador: " + getId() + "\n" +
+                "Nome: " + getNome() + "\n" +
+                "Espécie: " + getEspecie() + "\n" +
+                "Andar desejado: " + getAndarDesejado() + "\n" +
+                "Peso: " + getPeso() + "\n" +
+                "Temperatura ideal: " + getTemperaturaIdeal() + "\n" +
+                "Cor das penas: " + getCorDasPenas() + "\n" +
+                "Tempo de espera: " + getTempoDeEspera() + "\n" +
+                "Paciência máxima: " + PACIENCIA_MAXIMA + "\n";
     }
 
     /**

@@ -32,7 +32,8 @@ public class MamiferoAquatico extends Mamifero{
      */
     @Override
     public String toString(){
-        return super.toString();
+        return super.toString() +
+                "Paciência máxima: " + PACIENCIA_MAXIMA + "\n";
     }
 
     /**
@@ -62,14 +63,5 @@ public class MamiferoAquatico extends Mamifero{
                     this.getTemperaturaIdeal() == outroMamiferoAquatico.getTemperaturaIdeal() &&
                     this.isPeludo() == outroMamiferoAquatico.isPeludo();
         }
-    }
-
-    /**
-     * Retorna o hashcode do mamífero aquático.
-     * @return hashcode do mamífero aquático
-     */
-    @Override
-    public int hashCode(){
-        return super.hashCode();
     }
 }

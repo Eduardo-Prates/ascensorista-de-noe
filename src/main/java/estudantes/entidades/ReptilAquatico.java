@@ -32,7 +32,21 @@ public class ReptilAquatico extends Reptil{
      * @return representação em String do réptil aquático
      */
     @Override
-    public String toString(){return super.toString();}
+    public String toString(){
+        String classe = this.getClass().getName();
+        String[] classeRepartida = classe.split("\\.");
+        String nomeClasse = classeRepartida[2];
+
+        return  "\nTipo: " + nomeClasse + "\n" +
+                "Identificador: " + getId() + "\n" +
+                "Nome: " + getNome() + "\n" +
+                "Espécie: " + getEspecie() + "\n" +
+                "Andar desejado: " + getAndarDesejado() + "\n" +
+                "Peso: " + getPeso() + "\n" +
+                "Temperatura ideal: " + getTemperaturaIdeal() + "\n" +
+                "Tempo de espera: " + getTempoDeEspera() + "\n" +
+                "Paciência máxima: " + PACIENCIA_MAXIMA + "\n";
+    }
 
     /**
      * Retorna se o réptil aquático é igual a outro.

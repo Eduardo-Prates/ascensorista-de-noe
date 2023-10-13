@@ -38,7 +38,8 @@ public class Peixe extends Animal{
      */
     @Override
     public String toString(){
-        return super.toString() +
+        return super.toString()  +
+                "Paciência máxima: " + PACIENCIA_MAXIMA + "\n" +
                 "Cor das escamas: " + corDasEscamas;
     }
 
@@ -62,24 +63,13 @@ public class Peixe extends Animal{
             Peixe outroPeixe = (Peixe) o;
             return this.getId() == outroPeixe.getId() &&
                     this.getNome().equals(outroPeixe.getNome()) &&
-                    this.getEspecie().equals(outroPeixe.getEspecie())&&
+                    this.getEspecie().equals(outroPeixe.getEspecie()) &&
                     this.getPeso() == outroPeixe.getPeso() &&
                     this.getAndarDesejado() == outroPeixe.getAndarDesejado() &&
                     this.getTempoDeEspera() == outroPeixe.getTempoDeEspera() &&
                     this.getTemperaturaIdeal() == outroPeixe.getTemperaturaIdeal() &&
                     this.getCorDasEscamas().equals(outroPeixe.getCorDasEscamas());
         }
-
-        /*
-        return this.getId() == outroMamiferoVoador.getId() &&
-                    this.getNome().equals(outroMamiferoVoador.getNome()) &&
-                    this.getEspecie().equals(outroMamiferoVoador.getEspecie())&&
-                    this.getPeso() == outroMamiferoVoador.getPeso() &&
-                    this.getAndarDesejado() == outroMamiferoVoador.getAndarDesejado() &&
-                    this.getTempoDeEspera() == outroMamiferoVoador.getTempoDeEspera() &&
-                    this.getTemperaturaIdeal() == outroMamiferoVoador.getTemperaturaIdeal() &&
-                    this.isPeludo() == outroMamiferoVoador.isPeludo();
-         */
     }
 
     /**

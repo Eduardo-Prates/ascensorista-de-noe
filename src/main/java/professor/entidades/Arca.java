@@ -110,7 +110,7 @@ public class Arca {
                         break;
                     case 4: novo = new MamiferoTerrestre(id, nome, especie, andarDesejado, peso, temperatura, true);
                         break;
-                    case 5: novo = new MamiferoTerrestre(id, nome, especie, andarDesejado, peso, temperatura, true);
+                    case 5: novo = new MamiferoVoador(id, nome, especie, andarDesejado, peso, temperatura, true);
                         break;
                     case 6: novo = new Peixe(id, nome, especie, andarDesejado, peso, temperatura, CORES[gerador.nextInt(CORES.length)]);
                         break;

@@ -45,6 +45,8 @@ public class Ascensorista {
     //Indica o peso máximo do elevador.
     private final int PESO_MAXIMO_ELEVADOR = 2500;
 
+    //Indica o intervalo de temperatura que os animais podem suportar
+    //para menos ou para mais.
     private final int INTERVALO_TEMPERATURA = 15;
 
     /**
@@ -74,6 +76,8 @@ public class Ascensorista {
     public void agir(Elevador elevador, Andar andar) {
         dispensarAnimaisPossiveis(elevador, andar);
 
+        //avalia a situação do elevador, se for possível, aloja o animal e chama a função
+        //recursivamente, e, se não for possível, altera a posição do elevador
         if(avaliarSituacao(elevador, andar)){
             agir(elevador, andar);
         } else {
@@ -98,9 +102,8 @@ public class Ascensorista {
 
     /**
      * Método que avalia a situação do elevador e do andar para decidir se
-     * o elevador deve subir ou descer, se deve encher ou drenar, se deve
-     * alterar a temperatura do ar condicionado, e se deve embarcar ou
-     * desembarcar animais.
+     * o elevador deve encher ou drenar, se deve alterar a temperatura do
+     * ar condicionado, e se deve embarcar o animal
      * @param elevador o elevador controlado pelo ascensorista
      * @param andar o andar no qual o elevador está parado
      * @return true se a ação foi realizada com sucesso, false caso contrário
@@ -129,6 +132,23 @@ public class Ascensorista {
     }
 
     /**
+     * Verifica se o peso do próximo animal que está na fila não extrapolou
+     * o peso máximo do elevador.
+     * @param animaisNoElevador array de animais no elevador
+     * @param proximoDaFila próximo animal na fila
+     * @return true se o peso do animal que está na fila é compatível com o
+     * peso máximo do elevador, false caso não for
+     */
+    private boolean verificarPeso(Animal[] animaisNoElevador, Animal proximoDaFila){
+        int peso = getPesoElevador(animaisNoElevador) + proximoDaFila.getPeso();
+        if(peso <= PESO_MAXIMO_ELEVADOR){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Checa o peso total dos animais no elevador.
      * @param animaisNoElevador array de animais no elevador
      * @return peso total dos animais no elevador
@@ -139,27 +159,6 @@ public class Ascensorista {
             peso+=animaisNoElevador[i].getPeso();
         }
         return peso;
-    }
-
-    /**
-     * Verifica se o peso do próximo animal que está na fila não extrapolou
-     * o peso máximo do elevador.
-     * @param animaisNoElevador array de animais no elevador
-     * @param proximoDaFila próximo animal na fila
-     * @return true se o peso do animal que está na fila é compatível com o
-     * peso máximo do elevador, false caso não for
-     */
-    private boolean verificarPeso(Animal[] animaisNoElevador, Animal proximoDaFila){
-        int peso = getPesoElevador(animaisNoElevador) + proximoDaFila.getPeso();
-        System.out.println("Peso do elevador: " + getPesoElevador(animaisNoElevador));
-        System.out.println("Peso do próximo da fila: " +proximoDaFila.getPeso());
-        if(peso <= PESO_MAXIMO_ELEVADOR){
-            //System.out.println("entrou");
-            return true;
-        } else {
-            //System.out.println("não entrou");
-            return false;
-        }
     }
 
     /**
@@ -195,6 +194,7 @@ public class Ascensorista {
             }
         }
 
+        //se não houver animais no elevador, o nível de água do elevador é o ideal do animal
         if(animaisNoElevador.length == 0){
             condicoesEntradaAnimal[NIVEL_DA_AGUA] = necessidadeAlagado;
             return true;
@@ -266,7 +266,7 @@ public class Ascensorista {
 
     /**
      * Verifica se a temperatura do próximo animal que está na fila não
-     * extrapolou a temperatura máxima do elevador.
+     * extrapola ou interpola a temperatura do elevador.
      * @param condicoesEntradaAnimal array de condições de entrada do animal
      * @param animaisNoElevador array de animais no elevador
      * @param proximoDaFila próximo animal na fila
@@ -277,15 +277,20 @@ public class Ascensorista {
     private boolean verificarTemperatura(int[] condicoesEntradaAnimal, Animal[] animaisNoElevador, Animal proximoDaFila, Elevador elevador){
         int[] temperaturas = getTemperaturas(animaisNoElevador);
 
-        if(temperaturas.length == 0){
+        //se não houver animais no elevador, a temperatura do elevador é a ideal do animal
+        if(animaisNoElevador.length == 0){
             condicoesEntradaAnimal[TEMPERATURA] = proximoDaFila.getTemperaturaIdeal();
             return true;
         } else {
             int tempMin = temperaturas[0];
             int tempMax = temperaturas[temperaturas.length - 1];
 
+            //verifica se a temperatura do animal está nos padrões do elevador,
+            //se sim, retorna true e não faz nenhuma alteração
+            //se não, verifica a condição e faz as alterações necessárias
             if (proximoDaFila.getTemperaturaIdeal() + INTERVALO_TEMPERATURA >= elevador.getTemperaturaDoArCondicionado() &&
                     proximoDaFila.getTemperaturaIdeal() - INTERVALO_TEMPERATURA <= elevador.getTemperaturaDoArCondicionado()) {
+                condicoesEntradaAnimal[TEMPERATURA] = SEM_ALTERACAO;
                 return true;
             } else {
                 if (proximoDaFila.getTemperaturaIdeal() < tempMin) {
@@ -355,10 +360,17 @@ public class Ascensorista {
      * @param elevador o elevador controlado pelo ascensorista
      */
     private void alterarPosicaoDoElevador(Elevador elevador){
+
+        //caso o elevador esteja no 3º ele seta a flag como true,
+        //para que na próxima vez que ele chegar no 2º ou 4º andar, ele
+        //alcance o andar mínimo ou o máximo, e defina a flag como false novamente
         if(elevador.getAndar() == 2){
             flag = true;
         }
+
         if((elevador.getAndar() == 1 || elevador.getAndar() == 3) && flag){
+            //garante que o andar mais alto e o mais baixo sejam atingidos
+            //quando se estiver subindo e descendo, respectivamente
             if(elevador.getAndar() == 3){
                 elevador.subir();
             } else {
@@ -367,13 +379,15 @@ public class Ascensorista {
             flag = false;
         } else {
             if(!animaisDentroDoElevador.isEmpty()){
+                //garante que a última demanda seja atendida como principal
                 if(animaisDentroDoElevador.get(0).getAndarDesejado() > elevador.getAndar()){
                     elevador.subir();
                 } else if(elevador.getAndar() != 0) {
                     elevador.descer();
                 }
             } else {
-                if(elevador.getAndar()>=3){
+                //garante que o elevador não pare caso não haja demanda
+                if(elevador.getAndar()>=2){
                     elevador.descer();
                 } else {
                     elevador.subir();

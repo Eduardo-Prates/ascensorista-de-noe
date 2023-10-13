@@ -33,7 +33,8 @@ public class MamiferoTerrestre extends Mamifero{
      */
     @Override
     public String toString(){
-        return super.toString();
+        return super.toString() +
+                "Paciência máxima: " + PACIENCIA_MAXIMA + "\n";
     }
 
     /**
@@ -64,14 +65,4 @@ public class MamiferoTerrestre extends Mamifero{
                     this.isPeludo() == outroMamiferoTerrestre.isPeludo();
         }
     }
-
-    /**
-     * Retorna o hashcode do mamífero terrestre.
-     * @return hashcode do mamífero terrestre
-     */
-    @Override
-    public int hashCode(){
-        return super.hashCode();
-    }
-
 }

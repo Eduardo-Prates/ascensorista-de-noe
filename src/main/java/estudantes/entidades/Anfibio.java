@@ -38,7 +38,8 @@ public class Anfibio extends Animal{
      */
     @Override
     public String toString(){
-        return super.toString();
+        return super.toString() +
+                "Paciência máxima: " + PACIENCIA_MAXIMA + "\n";
     }
 
     /**

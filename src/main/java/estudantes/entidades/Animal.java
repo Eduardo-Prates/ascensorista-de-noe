@@ -116,14 +116,19 @@ public class Animal {
      */
     @Override //faça o toString com quebras de linha
     public String toString(){
-        return  "\nIdentificador: " + id + "\n" +
+
+        String classe = this.getClass().getName();
+        String[] classeRepartida = classe.split("\\.");
+        String nomeClasse = classeRepartida[2];
+
+        return  "\nTipo: " + nomeClasse + "\n" +
+                "Identificador: " + id + "\n" +
                 "Nome: " + nome + "\n" +
                 "Espécie: " + especie + "\n" +
                 "Andar desejado: " + andarDesejado + "\n" +
                 "Peso: " + peso + "\n" +
                 "Temperatura ideal: " + temperaturaIdeal + "\n" +
-                "Tempo de espera: " + tempoDeEspera + "\n" +
-                "Paciência máxima: " + PACIENCIA_MAXIMA + "\n";
+                "Tempo de espera: " + tempoDeEspera + "\n";
     }
 
     /**
@@ -185,7 +190,7 @@ public class Animal {
      */
     public void aumentaEspera() {
         tempoDeEspera++;
-        if (PACIENCIA_MAXIMA < tempoDeEspera){
+        if (tempoDeEspera > PACIENCIA_MAXIMA){
             throw new RuntimeException("Animal esperando a mais tempo que a paciência");
         }
     }

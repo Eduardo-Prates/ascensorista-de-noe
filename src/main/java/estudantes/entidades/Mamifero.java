@@ -34,38 +34,9 @@ abstract class Mamifero extends Animal{
     @Override
     public String toString(){
         return super.toString() +
-                "Peludo: " + peludo;
+                "Peludo: " + peludo + "\n";
     }
-
-    /**
-     * Retorna se o mamífero é igual a outro.
-     * @param o o outro mamífero a ser comparada.
-     * @return true se os mamíferos são iguais, false caso contrário
-     */
-    @Override
-    public boolean equals(Object o){
-        if(o == null){
-            return false;
-        }
-        if(this == o){
-            return true;
-        }
-
-        if(!(o instanceof Mamifero)){
-            return false;
-        } else {
-            Mamifero outroMamifero = (Mamifero) o;
-            return this.getId() == outroMamifero.getId() &&
-                    this.getNome().equals(outroMamifero.getNome()) &&
-                    this.getEspecie().equals(outroMamifero.getEspecie())&&
-                    this.getPeso() == outroMamifero.getPeso() &&
-                    this.getAndarDesejado() == outroMamifero.getAndarDesejado() &&
-                    this.getTempoDeEspera() == outroMamifero.getTempoDeEspera() &&
-                    this.getTemperaturaIdeal() == outroMamifero.getTemperaturaIdeal() &&
-                    this.isPeludo() == outroMamifero.isPeludo();
-        }
-    }
-
+    
     /**
      * Retorna o hashcode do mamífero.
      * @return hashcode do mamífero

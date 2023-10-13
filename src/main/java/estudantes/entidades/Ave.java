@@ -42,7 +42,8 @@ public class Ave extends Animal{
     @Override
     public String toString(){
         return super.toString() +
-                "Cor das penas: " + corDasPenas;
+                "Paciência máxima: " + PACIENCIA_MAXIMA + "\n" +
+                "Cor das penas: " + corDasPenas + "\n";
     }
 
     /**

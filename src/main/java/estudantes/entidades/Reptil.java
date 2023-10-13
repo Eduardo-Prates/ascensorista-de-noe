@@ -33,7 +33,8 @@ public class Reptil extends Animal{
      */
     @Override
     public String toString(){
-        return super.toString();
+        return super.toString() +
+                "Paciência máxima: " + PACIENCIA_MAXIMA + "\n";
     }
 
     /**
@@ -62,14 +63,5 @@ public class Reptil extends Animal{
                     this.getTempoDeEspera() == outroReptil.getTempoDeEspera() &&
                     this.getTemperaturaIdeal() == outroReptil.getTemperaturaIdeal();
         }
-    }
-
-    /**
-     * Retorna o hashcode do réptil.
-     * @return hashcode do réptil
-     */
-    @Override
-    public int hashCode(){
-        return super.hashCode();
     }
 }
