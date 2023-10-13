@@ -16,17 +16,36 @@ import java.util.ArrayList;
  * método público deve ser "agir".
  *
  * @author Jean Cheiran
+ * @author Eduardo Prates Tiadoro
+ * @author Reinaldo Zimmer Wendt
  * @version 1.0
  */
 public class Ascensorista {
 
+    //lista de animais que estão dentro do elevador.
     private ArrayList<Animal> animaisDentroDoElevador;
+
+    //auxilia na tomada de decisão de subir ou descer o elevador.
     private boolean flag;
+
+    //Referente a posicao no array de condicoesEntradaAnimal que
+    // indica se o animal precisa de alagamento ou não.
     private final int NIVEL_DA_AGUA = 0;
+
+    //Referente a posicao no array de condicoesEntradaAnimal que
+    // indica a temperatura ideal do animal.
     private final int TEMPERATURA = 1;
+
+    //Constantes que indicam se o animal precisa de alagamento, se o animal
+    // precisa de drenagem ou se o animal não precisa de alteração.
     private final int SEM_ALTERACAO = 0;
     private final int ALAGADO = 1;
     private final int DRENADO = 2;
+
+    //Indica o peso máximo do elevador.
+    private final int PESO_MAXIMO_ELEVADOR = 2500;
+
+    private final int INTERVALO_TEMPERATURA = 15;
 
     /**
      * Construtor padrão de Ascensorista.
@@ -65,8 +84,8 @@ public class Ascensorista {
     /**
      * Método que dispensa os animais que estão no elevador e que desejam
      * descer no andar atual.
-     * @param elevador
-     * @param andar
+     * @param elevador o elevador controlado pelo ascensorista
+     * @param andar o andar no qual o elevador está parado
      */
     private void dispensarAnimaisPossiveis(Elevador elevador, Andar andar){
         for(int i=0; i<animaisDentroDoElevador.size(); i++){
@@ -82,8 +101,9 @@ public class Ascensorista {
      * o elevador deve subir ou descer, se deve encher ou drenar, se deve
      * alterar a temperatura do ar condicionado, e se deve embarcar ou
      * desembarcar animais.
-     * @param elevador
-     * @param andar
+     * @param elevador o elevador controlado pelo ascensorista
+     * @param andar o andar no qual o elevador está parado
+     * @return true se a ação foi realizada com sucesso, false caso contrário
      */
     private boolean avaliarSituacao(Elevador elevador, Andar andar){
 
@@ -109,8 +129,8 @@ public class Ascensorista {
     }
 
     /**
-     * Verifica o peso total dos animais no elevador.
-     * @param animaisNoElevador
+     * Checa o peso total dos animais no elevador.
+     * @param animaisNoElevador array de animais no elevador
      * @return peso total dos animais no elevador
      */
     private int getPesoElevador(Animal[] animaisNoElevador){
@@ -124,24 +144,34 @@ public class Ascensorista {
     /**
      * Verifica se o peso do próximo animal que está na fila não extrapolou
      * o peso máximo do elevador.
-     * @param animaisNoElevador
-     * @param proximoDaFila
+     * @param animaisNoElevador array de animais no elevador
+     * @param proximoDaFila próximo animal na fila
      * @return true se o peso do animal que está na fila é compatível com o
-     * peso máximo do elevador, false caso não for.
+     * peso máximo do elevador, false caso não for
      */
     private boolean verificarPeso(Animal[] animaisNoElevador, Animal proximoDaFila){
         int peso = getPesoElevador(animaisNoElevador) + proximoDaFila.getPeso();
         System.out.println("Peso do elevador: " + getPesoElevador(animaisNoElevador));
         System.out.println("Peso do próximo da fila: " +proximoDaFila.getPeso());
-        if(peso <= 2500){
-            System.out.println("entrou");
+        if(peso <= PESO_MAXIMO_ELEVADOR){
+            //System.out.println("entrou");
             return true;
         } else {
-            System.out.println("não entrou");
+            //System.out.println("não entrou");
             return false;
         }
     }
 
+    /**
+     * Verifica a necessidade de alagamento do elevador com base no tipo de
+     * animal a ser embarcado. Também verifica se a troca entre alagado e
+     * drenado pode ser inversa sem afetar os animais que estão no elevador.
+     * @param condicoesEntradaAnimal array de condições de entrada do animal
+     * @param animaisNoElevador array de animais no elevador
+     * @param proximoDaFila próximo animal na fila
+     * @param elevador o elevador controlado pelo ascensorista
+     * @return true se a necessidade de alagamento foi avaliada com sucesso, false caso contrário
+     */
     private boolean verificarAlagado(int[] condicoesEntradaAnimal, Animal[] animaisNoElevador, Animal proximoDaFila, Elevador elevador){
 
         int necessidadeAlagado = 0;
@@ -203,6 +233,13 @@ public class Ascensorista {
         }
     }
 
+    /**
+     * Verifica se a troca de entre alagado e drenado não afeta os animais
+     * que estão no elevador.
+     * @param animaisNoElevador array de animais no elevador
+     * @param elevador o elevador controlado pelo ascensorista
+     * @return true se a troca de entre alagado e drenado é segura, false caso contrário
+     */
     private boolean verificarNecessidadeAlagadoNoElevador(Animal[] animaisNoElevador, Elevador elevador){
 
         for (Animal animal : animaisNoElevador) {
@@ -230,12 +267,12 @@ public class Ascensorista {
     /**
      * Verifica se a temperatura do próximo animal que está na fila não
      * extrapolou a temperatura máxima do elevador.
-     * @param condicoesEntradaAnimal
-     * @param animaisNoElevador
-     * @param proximoDaFila
-     * @param elevador
+     * @param condicoesEntradaAnimal array de condições de entrada do animal
+     * @param animaisNoElevador array de animais no elevador
+     * @param proximoDaFila próximo animal na fila
+     * @param elevador o elevador controlado pelo ascensorista
      * @return true se a temperatura do animal que está na fila é compatível
-     * com a temperatura máxima do elevador, false caso não for.
+     * com a temperatura máxima do elevador, false caso não for
      */
     private boolean verificarTemperatura(int[] condicoesEntradaAnimal, Animal[] animaisNoElevador, Animal proximoDaFila, Elevador elevador){
         int[] temperaturas = getTemperaturas(animaisNoElevador);
@@ -247,13 +284,13 @@ public class Ascensorista {
             int tempMin = temperaturas[0];
             int tempMax = temperaturas[temperaturas.length - 1];
 
-            if (proximoDaFila.getTemperaturaIdeal() + 15 >= elevador.getTemperaturaDoArCondicionado() &&
-                    proximoDaFila.getTemperaturaIdeal() - 15 <= elevador.getTemperaturaDoArCondicionado()) {
+            if (proximoDaFila.getTemperaturaIdeal() + INTERVALO_TEMPERATURA >= elevador.getTemperaturaDoArCondicionado() &&
+                    proximoDaFila.getTemperaturaIdeal() - INTERVALO_TEMPERATURA <= elevador.getTemperaturaDoArCondicionado()) {
                 return true;
             } else {
                 if (proximoDaFila.getTemperaturaIdeal() < tempMin) {
                     tempMin = proximoDaFila.getTemperaturaIdeal();
-                    if (tempMin + 15 < tempMax - 15) {
+                    if (tempMin + INTERVALO_TEMPERATURA < tempMax - INTERVALO_TEMPERATURA) {
                         condicoesEntradaAnimal[TEMPERATURA] = (int) (tempMin + tempMax) / 2;
                         return true;
                     } else {
@@ -261,7 +298,7 @@ public class Ascensorista {
                     }
                 } else {
                     tempMax = proximoDaFila.getTemperaturaIdeal();
-                    if (tempMax - 15 < tempMin + 15) {
+                    if (tempMax - INTERVALO_TEMPERATURA < tempMin + INTERVALO_TEMPERATURA) {
                         condicoesEntradaAnimal[TEMPERATURA] = (int) (tempMin + tempMax) / 2;
                         return true;
                     } else {
@@ -274,11 +311,11 @@ public class Ascensorista {
 
     /**
      * Retorna um array com as temperaturas dos animais que estão no elevador.
-     * @param animaisNoElevador
+     * @param animaisNoElevador array de animais no elevador
      * @return array com as temperaturas dos animais que estão no elevador
      */
     private int[] getTemperaturas(Animal[] animaisNoElevador){
-        int temperaturas[] = new int[animaisNoElevador.length];
+        int[] temperaturas = new int[animaisNoElevador.length];
         for(int i=0; i<animaisNoElevador.length; i++){
             temperaturas[i] = animaisNoElevador[i].getTemperaturaIdeal();
         }
@@ -289,10 +326,10 @@ public class Ascensorista {
     /**
      * Aloja o animal no elevador e altera as condições do elevador de acordo
      * com as condições do animal.
-     * @param condicoesEntradaAnimal
-     * @param proximoDaFila
-     * @param elevador
-     * @param andar
+     * @param condicoesEntradaAnimal array de condições de entrada do animal
+     * @param proximoDaFila próximo animal na fila
+     * @param elevador o elevador controlado pelo ascensorista
+     * @param andar o andar no qual o elevador está parado
      */
     private void alojarAnimal(int[] condicoesEntradaAnimal, Animal proximoDaFila, Elevador elevador, Andar andar){
         int condicaoAlagamento = condicoesEntradaAnimal[NIVEL_DA_AGUA];
@@ -313,8 +350,9 @@ public class Ascensorista {
     }
 
     /**
-     * Método que altera a posição do elevador. Sobe ou desce o elevador.
-     * @param elevador
+     * Altera a posição do elevador de acordo com a situação do elevador e
+     * dos animais que estão dentro dele.
+     * @param elevador o elevador controlado pelo ascensorista
      */
     private void alterarPosicaoDoElevador(Elevador elevador){
         if(elevador.getAndar() == 2){
