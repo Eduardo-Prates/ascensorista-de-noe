@@ -33,7 +33,7 @@ public class Reptil extends Animal{
      */
     @Override
     public String toString(){
-        return "Réptil " + super.toString();
+        return super.toString();
     }
 
     /**
@@ -54,9 +54,12 @@ public class Reptil extends Animal{
             return false;
         } else {
             Reptil outroReptil = (Reptil) o;
-            return this.getNome().equals(outroReptil.getNome()) &&
+            return this.getId() == outroReptil.getId() &&
+                    this.getNome().equals(outroReptil.getNome()) &&
                     this.getEspecie().equals(outroReptil.getEspecie())&&
                     this.getPeso() == outroReptil.getPeso() &&
+                    this.getAndarDesejado() == outroReptil.getAndarDesejado() &&
+                    this.getTempoDeEspera() == outroReptil.getTempoDeEspera() &&
                     this.getTemperaturaIdeal() == outroReptil.getTemperaturaIdeal();
         }
     }

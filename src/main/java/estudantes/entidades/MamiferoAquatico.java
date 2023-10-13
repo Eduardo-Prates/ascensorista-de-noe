@@ -32,7 +32,7 @@ public class MamiferoAquatico extends Mamifero{
      */
     @Override
     public String toString(){
-        return "Mamífero aquático " + super.toString();
+        return super.toString();
     }
 
     /**
@@ -53,9 +53,12 @@ public class MamiferoAquatico extends Mamifero{
             return false;
         } else {
             MamiferoAquatico outroMamiferoAquatico = (MamiferoAquatico) o;
-            return this.getNome().equals(outroMamiferoAquatico.getNome()) &&
+            return this.getId() == outroMamiferoAquatico.getId() &&
+                    this.getNome().equals(outroMamiferoAquatico.getNome()) &&
                     this.getEspecie().equals(outroMamiferoAquatico.getEspecie())&&
                     this.getPeso() == outroMamiferoAquatico.getPeso() &&
+                    this.getAndarDesejado() == outroMamiferoAquatico.getAndarDesejado() &&
+                    this.getTempoDeEspera() == outroMamiferoAquatico.getTempoDeEspera() &&
                     this.getTemperaturaIdeal() == outroMamiferoAquatico.getTemperaturaIdeal() &&
                     this.isPeludo() == outroMamiferoAquatico.isPeludo();
         }

@@ -39,7 +39,7 @@ public class Elevador {
 
     /**
      * Inclui um animal no elevador.
-     * O animal não é removido de qualquer outra estrutura que faça parte 
+     * O animal não é removido de qualquer outra estrutura que faça parte
      * quando entra no elevador.
      * @param animal animal que quer embarcar (um valor null será ignorado)
      */

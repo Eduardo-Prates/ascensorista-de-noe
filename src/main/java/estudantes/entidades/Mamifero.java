@@ -55,9 +55,12 @@ abstract class Mamifero extends Animal{
             return false;
         } else {
             Mamifero outroMamifero = (Mamifero) o;
-            return this.getNome().equals(outroMamifero.getNome()) &&
+            return this.getId() == outroMamifero.getId() &&
+                    this.getNome().equals(outroMamifero.getNome()) &&
                     this.getEspecie().equals(outroMamifero.getEspecie())&&
                     this.getPeso() == outroMamifero.getPeso() &&
+                    this.getAndarDesejado() == outroMamifero.getAndarDesejado() &&
+                    this.getTempoDeEspera() == outroMamifero.getTempoDeEspera() &&
                     this.getTemperaturaIdeal() == outroMamifero.getTemperaturaIdeal() &&
                     this.isPeludo() == outroMamifero.isPeludo();
         }

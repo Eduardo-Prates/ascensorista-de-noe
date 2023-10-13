@@ -33,7 +33,7 @@ public class AveVoadora extends Ave{
      */
     @Override
     public String toString(){
-        return "Ave voadora" + super.toString();
+        return super.toString();
     }
 
     /**
@@ -43,6 +43,25 @@ public class AveVoadora extends Ave{
      */
     @Override
     public boolean equals(Object o){
-       return super.equals(o);
+        if(o == null){
+            return false;
+        }
+        if(this == o){
+            return true;
+        }
+
+        if(!(o instanceof AveVoadora)){
+            return false;
+        } else {
+            AveVoadora outraAveVoadora = (AveVoadora) o;
+            return this.getId() == outraAveVoadora.getId() &&
+                    this.getNome().equals(outraAveVoadora.getNome()) &&
+                    this.getEspecie().equals(outraAveVoadora.getEspecie())&&
+                    this.getPeso() == outraAveVoadora.getPeso() &&
+                    this.getAndarDesejado() == outraAveVoadora.getAndarDesejado() &&
+                    this.getTempoDeEspera() == outraAveVoadora.getTempoDeEspera() &&
+                    this.getTemperaturaIdeal() == outraAveVoadora.getTemperaturaIdeal() &&
+                    this.getCorDasPenas().equals(outraAveVoadora.getCorDasPenas());
+        }
     }
 }

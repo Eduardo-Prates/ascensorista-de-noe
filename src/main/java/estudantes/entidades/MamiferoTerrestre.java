@@ -33,7 +33,7 @@ public class MamiferoTerrestre extends Mamifero{
      */
     @Override
     public String toString(){
-        return "Mamífero terrestre " + super.toString();
+        return super.toString();
     }
 
     /**
@@ -54,9 +54,12 @@ public class MamiferoTerrestre extends Mamifero{
             return false;
         } else {
             MamiferoTerrestre outroMamiferoTerrestre = (MamiferoTerrestre) o;
-            return this.getNome().equals(outroMamiferoTerrestre.getNome()) &&
+            return this.getId() == outroMamiferoTerrestre.getId() &&
+                    this.getNome().equals(outroMamiferoTerrestre.getNome()) &&
                     this.getEspecie().equals(outroMamiferoTerrestre.getEspecie())&&
                     this.getPeso() == outroMamiferoTerrestre.getPeso() &&
+                    this.getAndarDesejado() == outroMamiferoTerrestre.getAndarDesejado() &&
+                    this.getTempoDeEspera() == outroMamiferoTerrestre.getTempoDeEspera() &&
                     this.getTemperaturaIdeal() == outroMamiferoTerrestre.getTemperaturaIdeal() &&
                     this.isPeludo() == outroMamiferoTerrestre.isPeludo();
         }

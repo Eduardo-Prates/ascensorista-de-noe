@@ -32,16 +32,7 @@ public class ReptilAquatico extends Reptil{
      * @return representação em String do réptil aquático
      */
     @Override
-    public String toString(){
-        return  "Réptil aquático " + getId() + ":\n" +
-                "Nome: " + getNome() + "\n" +
-                "Espécie: " + getEspecie() + "\n" +
-                "Andar desejado: " + getAndarDesejado() + "\n" +
-                "Peso: " + getPeso() + "\n" +
-                "Temperatura ideal: " + getTemperaturaIdeal() + "\n" +
-                "Tempo de espera: " + getTempoDeEspera() + "\n" +
-                "Paciência máxima: " + PACIENCIA_MAXIMA + "\n";
-    }
+    public String toString(){return super.toString();}
 
     /**
      * Retorna se o réptil aquático é igual a outro.
@@ -61,9 +52,12 @@ public class ReptilAquatico extends Reptil{
             return false;
         } else {
             ReptilAquatico outroReptilAquatico = (ReptilAquatico) o;
-            return this.getNome().equals(outroReptilAquatico.getNome()) &&
+            return this.getId() == outroReptilAquatico.getId() &&
+                    this.getNome().equals(outroReptilAquatico.getNome()) &&
                     this.getEspecie().equals(outroReptilAquatico.getEspecie())&&
                     this.getPeso() == outroReptilAquatico.getPeso() &&
+                    this.getAndarDesejado() == outroReptilAquatico.getAndarDesejado() &&
+                    this.getTempoDeEspera() == outroReptilAquatico.getTempoDeEspera() &&
                     this.getTemperaturaIdeal() == outroReptilAquatico.getTemperaturaIdeal();
         }
     }

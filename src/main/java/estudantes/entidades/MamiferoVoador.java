@@ -33,7 +33,7 @@ public class MamiferoVoador extends Mamifero{
      */
     @Override
     public String toString(){
-        return "Mamífero voador " + super.toString();
+        return super.toString();
     }
 
     /**
@@ -54,9 +54,12 @@ public class MamiferoVoador extends Mamifero{
             return false;
         } else {
             MamiferoVoador outroMamiferoVoador = (MamiferoVoador) o;
-            return this.getNome().equals(outroMamiferoVoador.getNome()) &&
+            return this.getId() == outroMamiferoVoador.getId() &&
+                    this.getNome().equals(outroMamiferoVoador.getNome()) &&
                     this.getEspecie().equals(outroMamiferoVoador.getEspecie())&&
                     this.getPeso() == outroMamiferoVoador.getPeso() &&
+                    this.getAndarDesejado() == outroMamiferoVoador.getAndarDesejado() &&
+                    this.getTempoDeEspera() == outroMamiferoVoador.getTempoDeEspera() &&
                     this.getTemperaturaIdeal() == outroMamiferoVoador.getTemperaturaIdeal() &&
                     this.isPeludo() == outroMamiferoVoador.isPeludo();
         }

@@ -116,7 +116,7 @@ public class Animal {
      */
     @Override //faça o toString com quebras de linha
     public String toString(){
-        return  id + ":\n" +
+        return  "\nIdentificador: " + id + "\n" +
                 "Nome: " + nome + "\n" +
                 "Espécie: " + especie + "\n" +
                 "Andar desejado: " + andarDesejado + "\n" +
@@ -144,9 +144,12 @@ public class Animal {
             return false;
         } else {
             Animal outroAnimal = (Animal) o;
-            return this.nome.equals(outroAnimal.getNome()) &&
+            return this.id == outroAnimal.id &&
+                    this.nome.equals(outroAnimal.getNome()) &&
                     this.especie.equals(outroAnimal.getEspecie())&&
                     this.peso == outroAnimal.peso &&
+                    this.andarDesejado == outroAnimal.andarDesejado &&
+                    this.tempoDeEspera == outroAnimal.tempoDeEspera &&
                     this.temperaturaIdeal == outroAnimal.temperaturaIdeal;
         }
     }

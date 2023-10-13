@@ -38,7 +38,7 @@ public class Anfibio extends Animal{
      */
     @Override
     public String toString(){
-        return "Anfibio " + super.toString();
+        return super.toString();
     }
 
     /**
@@ -59,9 +59,12 @@ public class Anfibio extends Animal{
             return false;
         } else {
             Anfibio outroAnfibio = (Anfibio) o;
-            return this.getNome().equals(outroAnfibio.getNome()) &&
+            return this.getId() == outroAnfibio.getId() &&
+                    this.getNome().equals(outroAnfibio.getNome()) &&
                     this.getEspecie().equals(outroAnfibio.getEspecie())&&
                     this.getPeso() == outroAnfibio.getPeso() &&
+                    this.getAndarDesejado() == outroAnfibio.getAndarDesejado() &&
+                    this.getTempoDeEspera() == outroAnfibio.getTempoDeEspera() &&
                     this.getTemperaturaIdeal() == outroAnfibio.getTemperaturaIdeal();
         }
     }

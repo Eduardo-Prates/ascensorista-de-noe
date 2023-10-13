@@ -41,7 +41,7 @@ public class Ave extends Animal{
      */
     @Override
     public String toString(){
-        return "Ave " + super.toString() + "\n" +
+        return super.toString() +
                 "Cor das penas: " + corDasPenas;
     }
 
@@ -63,9 +63,12 @@ public class Ave extends Animal{
             return false;
         } else {
             Ave outraAve = (Ave) o;
-            return this.getNome().equals(outraAve.getNome()) &&
+            return this.getId() == outraAve.getId() &&
+                    this.getNome().equals(outraAve.getNome()) &&
                     this.getEspecie().equals(outraAve.getEspecie())&&
                     this.getPeso() == outraAve.getPeso() &&
+                    this.getAndarDesejado() == outraAve.getAndarDesejado() &&
+                    this.getTempoDeEspera() == outraAve.getTempoDeEspera() &&
                     this.getTemperaturaIdeal() == outraAve.getTemperaturaIdeal() &&
                     this.getCorDasPenas().equals(outraAve.getCorDasPenas());
         }
