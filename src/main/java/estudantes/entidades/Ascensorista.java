@@ -34,11 +34,17 @@ public class Ascensorista {
 
     //Referente a posicao no array de condicoesEntradaAnimal que
     // indica a temperatura ideal do animal.
+
     private final int TEMPERATURA = 1;
+    private final int TEMPERATURA_MINIMA_ELEVADOR = 0;
+    private final int TEMPERATURA_MAXIMA_ELEVADOR = 40;
+
+    //Constante que indica que o animal não precisa modificação
+    // nas condições de água e temperatura
+    private final int SEM_ALTERACAO = 100;
 
     //Constantes que indicam se o animal precisa de alagamento, se o animal
     // precisa de drenagem ou se o animal não precisa de alteração.
-    private final int SEM_ALTERACAO = 0;
     private final int ALAGADO = 1;
     private final int DRENADO = 2;
 
@@ -94,6 +100,7 @@ public class Ascensorista {
     private void dispensarAnimaisPossiveis(Elevador elevador, Andar andar){
         for(int i=0; i<animaisDentroDoElevador.size(); i++){
             if(animaisDentroDoElevador.get(i).getAndarDesejado() == elevador.getAndar()){
+                System.out.println("Saiu no andar " + elevador.getAndar());
                 elevador.desembarcar(animaisDentroDoElevador.get(i), andar);
                 animaisDentroDoElevador.remove(i);
             }
@@ -275,6 +282,7 @@ public class Ascensorista {
      * com a temperatura máxima do elevador, false caso não for
      */
     private boolean verificarTemperatura(int[] condicoesEntradaAnimal, Animal[] animaisNoElevador, Animal proximoDaFila, Elevador elevador){
+
         int[] temperaturas = getTemperaturas(animaisNoElevador);
 
         //se não houver animais no elevador, a temperatura do elevador é a ideal do animal
@@ -295,7 +303,7 @@ public class Ascensorista {
             } else {
                 if (proximoDaFila.getTemperaturaIdeal() < tempMin) {
                     tempMin = proximoDaFila.getTemperaturaIdeal();
-                    if (tempMin + INTERVALO_TEMPERATURA < tempMax - INTERVALO_TEMPERATURA) {
+                    if (tempMin + INTERVALO_TEMPERATURA > tempMax - INTERVALO_TEMPERATURA) {
                         condicoesEntradaAnimal[TEMPERATURA] = (int) (tempMin + tempMax) / 2;
                         return true;
                     } else {
@@ -324,7 +332,7 @@ public class Ascensorista {
         for(int i=0; i<animaisNoElevador.length; i++){
             temperaturas[i] = animaisNoElevador[i].getTemperaturaIdeal();
         }
-        Arrays.stream(temperaturas).sorted();
+        temperaturas = Arrays.stream(temperaturas).sorted().toArray();
         return temperaturas;
     }
 
@@ -348,7 +356,13 @@ public class Ascensorista {
             }
         }
         if(condicaoTemperatura != SEM_ALTERACAO){
-            elevador.setTemperaturaDoArCondicionado(condicaoTemperatura);
+            if(!(elevador.setTemperaturaDoArCondicionado(condicaoTemperatura))){
+                if(condicaoTemperatura < 0){
+                    elevador.setTemperaturaDoArCondicionado(TEMPERATURA_MINIMA_ELEVADOR);
+                } else {
+                    elevador.setTemperaturaDoArCondicionado(TEMPERATURA_MAXIMA_ELEVADOR);
+                }
+            }
         }
         animaisDentroDoElevador.add(proximoDaFila);
         elevador.embarcar(andar.chamarProximoDaFila());
@@ -387,7 +401,7 @@ public class Ascensorista {
                 }
             } else {
                 //garante que o elevador não pare caso não haja demanda
-                if(elevador.getAndar()>=2){
+                if(elevador.getAndar()>=3){
                     elevador.descer();
                 } else {
                     elevador.subir();

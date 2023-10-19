@@ -11,12 +11,13 @@ import java.util.LinkedList;
  * <strong>Não mexa aqui!!!</strong>
  *
  * @author Jean Cheiran
- * @version 1.1
+ * @version 1.0
  */
 public class Andar {
-    private int andar; //começa no 0
-    private LinkedList<Animal> filaParaElevador;
-    private HashSet<Animal> animaisQueDesceram;
+
+    public int andar; //começa no 0
+    public LinkedList<Animal> filaParaElevador;
+    public HashSet<Animal> animaisQueDesceram;
 
     /**
      * Construtor do andar.
@@ -76,6 +77,7 @@ public class Andar {
      * @return true se o animal foi encontrado na fila; false caso contrário
      */
     public boolean tirarDaFila(Animal animal){
+        System.out.println("removeu o animal "+animal);
         return filaParaElevador.remove(animal);
     }
 

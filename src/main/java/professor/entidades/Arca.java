@@ -1,6 +1,5 @@
 package professor.entidades;
 
-
 import estudantes.entidades.Anfibio;
 import estudantes.entidades.Animal;
 import estudantes.entidades.Ascensorista;
@@ -32,11 +31,11 @@ public class Arca {
     private static final String[] SEGUNDA_PARTE_ESPECIE = {"lusitanica","periglenes","porosus","oreadicus","camelus","cucullatus","petersi","marcidus","clarkii","catus","familiaris","mabouia","caudatus","regius","melancholicus","volans"};
     private static final String[] CORES = {"arco-iris", "azul", "bege", "laranja", "prata", "purpura", "rosa", "verde"};
 
-    private Random gerador;
-    private int tempo = 0;
-    private Elevador elevador;
-    private Andar[] andares;
-    private Ascensorista ascensorista;
+    public Random gerador;
+    public int tempo = 0;
+    public Elevador elevador;
+    public Andar[] andares;
+    public Ascensorista ascensorista;
     public static final int QUANTIDADE_DE_ANDARES_NA_ARCA = 5;
 
     /**
@@ -86,7 +85,7 @@ public class Arca {
     public void simularVida() {
         //cria animais
         for (int i = 0; i < QUANTIDADE_DE_ANDARES_NA_ARCA; i++) {
-            if (gerador.nextInt(4) == 0) { //25% de chance de gerar um animal em cada andar
+            if (gerador.nextInt(2) == 0) { //2 = 50% de chance de gerar um animal em cada andar
                 int id = gerador.nextInt(1000000);
                 String nome = PRENOMES_DE_ANIMAIS[gerador.nextInt(PRENOMES_DE_ANIMAIS.length)]+" "+
                         SOBRENOMES_DE_ANIMAIS[gerador.nextInt(SOBRENOMES_DE_ANIMAIS.length)];
@@ -94,7 +93,7 @@ public class Arca {
                         SEGUNDA_PARTE_ESPECIE[gerador.nextInt(SEGUNDA_PARTE_ESPECIE.length)];
                 int andarDesejado = gerador.nextInt(QUANTIDADE_DE_ANDARES_NA_ARCA);
                 int peso = gerador.nextInt(1000) + 1;
-                int temperatura = gerador.nextInt(41);
+                int temperatura = gerador.nextInt(51) - 10;
 
                 Animal novo;
 
@@ -110,7 +109,7 @@ public class Arca {
                         break;
                     case 4: novo = new MamiferoTerrestre(id, nome, especie, andarDesejado, peso, temperatura, true);
                         break;
-                    case 5: novo = new MamiferoVoador(id, nome, especie, andarDesejado, peso, temperatura, true);
+                    case 5: novo = new MamiferoTerrestre(id, nome, especie, andarDesejado, peso, temperatura, true);
                         break;
                     case 6: novo = new Peixe(id, nome, especie, andarDesejado, peso, temperatura, CORES[gerador.nextInt(CORES.length)]);
                         break;
@@ -125,14 +124,55 @@ public class Arca {
             }
         }
 
-        //TODO do professor
-
         //chamar ascensorista
         ascensorista.agir(elevador, andares[elevador.getAndar()]);
 
-        //TODO do professor
+        //atualizar esperas nas filas e debandar os impacientes
+        for (int i = 0; i < QUANTIDADE_DE_ANDARES_NA_ARCA; i++){
+            Animal[] fila = andares[i].checarFilaParaElevador();
+            for(Animal animal : fila){
+                try{
+                    animal.aumentaEspera();
+                }catch(RuntimeException e){
+                    andares[i].tirarDaFila(animal);
+                    System.err.println(animal.getNome()+" cansou e foi embora!");
+                }
+            }
+        }
+
+        //verificar se animais morreram no elevador
+        Animal[] bichosNoElevador = elevador.checarAnimaisNoElevador();
+        for(Animal bicho : bichosNoElevador){
+            //afogamentos
+            if(bicho instanceof Ave || bicho instanceof AveVoadora || (bicho instanceof Reptil && !(bicho instanceof ReptilAquatico))
+                    || bicho instanceof MamiferoTerrestre || bicho instanceof MamiferoVoador){
+                if(elevador.isCheioDeAgua()){
+                    throw new RuntimeException(bicho.getNome()+" morreu afogado!\n"+elevador+"\n"+bicho);
+                }
+            }
+            //esturricação
+            if(bicho instanceof Peixe || bicho instanceof MamiferoAquatico){
+                if(!elevador.isCheioDeAgua()){
+                    throw new RuntimeException(bicho.getNome()+" morreu esturricado!\n"+elevador+"\n"+bicho);
+                }
+            }
+            //hipotermina ou hipertermia
+            if(bicho.getTemperaturaIdeal() > elevador.getTemperaturaDoArCondicionado() + 15
+                    || bicho.getTemperaturaIdeal() < elevador.getTemperaturaDoArCondicionado() - 15){
+                throw new RuntimeException(bicho.getNome()+" morreu por causa da temperatura!\n"+elevador+"\n"+bicho);
+            }
+        }
+
+        //movimentar elevador
+        elevador.movimentar();
 
         //atualiza a interface
         Simulador.getInstancia().atualizarInterface();
+
+        //para a simulação depois de 2 minutos
+        System.out.println("[ --- tempo "+(tempo++)+" --- ]");
+        if(tempo > 180){
+            Simulador.pararSimulacao();
+        }
     }
 }
